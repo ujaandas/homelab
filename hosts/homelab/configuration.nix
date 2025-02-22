@@ -8,6 +8,7 @@
       ../../modules/user.nix
       ../../services/tailscale.nix
       ../../services/ssh.nix
+      ../../apps/minecraft.nix
     ];
 
   environment.systemPackages = with pkgs; [
