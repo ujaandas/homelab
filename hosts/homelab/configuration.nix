@@ -3,11 +3,11 @@
 {
   imports =
     [
-      ./modules/networking.nix
-      ./modules/i18n.nix
-      ./modules/user.nix
-      ./services/tailscale.nix
-      ./services/ssh.nix
+      ../../modules/networking.nix
+      ../../modules/i18n.nix
+      ../../modules/user.nix
+      ../../services/tailscale.nix
+      ../../services/ssh.nix
     ];
 
   environment.systemPackages = with pkgs; [
