@@ -11,10 +11,10 @@
   outputs = inputs@{ self, nixpkgs, hardware }: {
     nixosConfigurations = {
       homelab = nixpkgs.lib.nixosSystem {
-	system = "x86_64-linux";
-	modules = [
-	  ./hosts/homelab
-	];
+        system = "x86_64-linux";
+        modules = [
+          ./hosts/homelab
+        ];
       };
     };
   };
