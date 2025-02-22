@@ -1,18 +1,23 @@
 { config, pkgs, ... }:
 
 {
-  networking.networkmanager.enable = true;
-  networking.hostName = "homelab";
+  networking = {
+    hostName = "homelab";
+    networkmanager.enable = true;
 
-  networking.firewall = {
-    enable = true;
-    trustedInterfaces = [ "tailscale0" ];
-    allowedUDPPorts = [ config.services.tailscale.port ];
-    allowedTCPPorts = [  ];
-  };
+    firewall = {
+      enable = true;
+      trustedInterfaces = [ "tailscale0" ];
+      allowedUDPPorts = [ config.services.tailscale.port ];
+      allowedTCPPorts = [ 
+        3000  # grafana
+        9090  # prometheus
+      ];
+    };
 
-  networking.wireguard.interfaces.wg0 = {
-    generatePrivateKeyFile = true;
-    privateKeyFile = "~/wg/wg0";
+    wireguard.interfaces.wg0 = {
+      generatePrivateKeyFile = true;
+      privateKeyFile = "~/wg/wg0";
+    };
   };
 }
