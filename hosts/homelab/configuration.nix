@@ -8,8 +8,8 @@
       ../../modules/user.nix
       ../../services/tailscale.nix
       ../../services/ssh.nix
-      ../../services/grafana.nix
       ../../services/prometheus.nix
+      ../../apps/grafana.nix
       ../../apps/minecraft.nix
       ../../apps/jellyfin.nix
     ];

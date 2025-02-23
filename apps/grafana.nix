@@ -38,5 +38,5 @@ in
   };
 
   # Deploy the Node Exporter Full dashboard JSON
-  environment.etc."grafana-dashboards/node-exporter-full.json".text = builtins.readFile ./node-exporter-full.json;
+  environment.etc."grafana-dashboards/node-exporter-full.json".text = builtins.readFile ../resources/node-exporter-full.json;
 }
