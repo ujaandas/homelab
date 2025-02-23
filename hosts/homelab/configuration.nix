@@ -19,6 +19,7 @@
     wget
     git
     cowsay
+    nixfmt-rfc-style
   ];
 
   nixpkgs.config.allowUnfree = true;

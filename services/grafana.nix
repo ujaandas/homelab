@@ -6,9 +6,10 @@ in
   services.grafana = {
     enable = true;
     settings = {
+      analytics.reporting_enabled = false;
       server = {
         # Bind Grafana to localhost
-        http_addr = "127.0.0.1";
+        http_addr = "0.0.0.0";
         http_port = 3000;
 
         # Use the Tailscale hostname for domain and root_url
@@ -16,16 +17,26 @@ in
         root_url = "https://${tailscaleHostname}/";
       };
     };
-  };
+    provision = {
+      enable = true;
 
-  # nginx reverse proxy
-  services.nginx.virtualHosts."${tailscaleHostname}" = {
-    addSSL = true;
-    enableACME = true; # Tailscale handles HTTPS certificates
-    locations."/" = {
-      proxyPass = "http://${toString config.services.grafana.settings.server.http_addr}:${toString config.services.grafana.settings.server.http_port}";
-      proxyWebsockets = true;
-      recommendedProxySettings = true;
+      # Provision dashboards
+      dashboards.settings.providers = [{
+        name = "my dashboards";
+        options.path = "/etc/grafana-dashboards";
+      }];
+
+      # Provision datasources
+      datasources.settings.datasources = [
+        {
+          name = "Prometheus";
+          type = "prometheus";
+          url = "http://${config.services.prometheus.listenAddress}:${toString config.services.prometheus.port}";
+        }
+      ];
     };
   };
+
+  # Deploy the Node Exporter Full dashboard JSON
+  environment.etc."grafana-dashboards/node-exporter-full.json".text = builtins.readFile ./node-exporter-full.json;
 }

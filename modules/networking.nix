@@ -9,10 +9,7 @@
       enable = true;
       trustedInterfaces = [ "tailscale0" ];
       allowedUDPPorts = [ config.services.tailscale.port ];
-      allowedTCPPorts = [ 
-        3000  # grafana
-        9090  # prometheus
-      ];
+      allowedTCPPorts = [ ];
     };
 
     wireguard.interfaces.wg0 = {
