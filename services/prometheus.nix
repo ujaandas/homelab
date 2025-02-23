@@ -3,15 +3,12 @@
   services.prometheus = {
     enable = true;
     port = 9001;
+    globalConfig.scrape_interval = "15s";
     exporters.node = {
       enable = true;
       port = 9100;
       enabledCollectors = [
-        "logind"
         "systemd"
-      ];
-      disabledCollectors = [
-        "textfile"
       ];
     };
     scrapeConfigs = 
