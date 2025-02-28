@@ -3,24 +3,55 @@
 {
   imports =
     [
-      ../../modules/networking.nix
-      ../../modules/i18n.nix
-      ../../modules/user.nix
+      # supplement client apps
       ../../services/tailscale.nix
       ../../services/ssh.nix
       ../../services/prometheus.nix
-      ../../apps/grafana.nix
-      ../../apps/minecraft.nix
-      ../../apps/jellyfin.nix
+      ../../services/nginx.nix
+      # client facing
+      ../../services/grafana.nix
+      ../../services/minecraft.nix
+      ../../services/jellyfin.nix
     ];
+
+  time.timeZone = "Asia/Hong_Kong";
+  i18n.defaultLocale = "en_HK.UTF-8";
+
+  services.xserver.xkb = {
+    layout = "us";
+    variant = "";
+  };
 
   environment.systemPackages = with pkgs; [
     vim
     wget
     git
     cowsay
-    nixfmt-rfc-style
   ];
+
+  networking = {
+    hostName = "homelab";
+    networkmanager.enable = true;
+
+    firewall = {
+      enable = true;
+      trustedInterfaces = [ "tailscale0" ];
+      allowedUDPPorts = [ config.services.tailscale.port ];
+      allowedTCPPorts = [ ];
+    };
+
+    wireguard.interfaces.wg0 = {
+      generatePrivateKeyFile = true;
+      privateKeyFile = "~/wg/wg0";
+    };
+  };
+
+  users.users.homelab = {
+    isNormalUser = true;
+    description = "homelab";
+    extraGroups = [ "networkmanager" "wheel" ];
+    packages = with pkgs; [];
+  };
 
   nixpkgs.config.allowUnfree = true;
   programs.nix-ld.enable = true;

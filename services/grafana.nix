@@ -1,6 +1,6 @@
 { config, pkgs, ... }: 
 let
-  tailscaleHostname = "homelab.rooster-kettle.ts.net"; 
+  tailscaleHostname = "homelab"; 
 in
 {
   services.grafana = {
@@ -8,13 +8,12 @@ in
     settings = {
       analytics.reporting_enabled = false;
       server = {
-        # Bind Grafana to localhost
-        http_addr = "0.0.0.0";
+        http_addr = "127.0.0.1";
         http_port = 3000;
 
         # Use the Tailscale hostname for domain and root_url
         domain = tailscaleHostname;
-        root_url = "https://${tailscaleHostname}/";
+        root_url = "/grafana/";
       };
     };
     provision = {

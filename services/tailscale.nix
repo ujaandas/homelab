@@ -5,9 +5,10 @@
     tailscale
   ];
 
+  age.secrets.tailscale.file = "/home/homelab/homelab/secrets/tailscale.age";
   services.tailscale = {
     enable = true;
     extraUpFlags = [ "--ssh" ];
-    authKeyFile = "/secrets/ts";
+    authKeyFile = config.age.secrets.tailscale.path;
   };
 }

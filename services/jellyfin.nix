@@ -8,6 +8,8 @@
 
   services.jellyfin = {
     enable = true;
+    # TODO: Figure out configDir option to NOT yeet jellyfin publicly, only on localhost
+    # and then require reverse proxy via nginx
   };
 
   # Create media directories and set permissions
