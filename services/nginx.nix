@@ -11,7 +11,7 @@
           proxy_set_header X-Real-IP $remote_addr;
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
           proxy_set_header X-Forwarded-Proto $scheme;
-          rewrite  /grafana(/.*)  /$1 break;
+
           sub_filter '/public/' '/grafana/public/';
           sub_filter_once off;
         '';
@@ -24,13 +24,14 @@
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
           proxy_set_header X-Forwarded-Proto $scheme;
 
-          # Ensure paths and assets work correctly with the /jellyfin subpath
-          rewrite /jellyfin(/.*) $1 break;
           sub_filter '/web/' '/jellyfin/web/';
           sub_filter '/api/' '/jellyfin/api/';
           sub_filter_once off;
         '';
       };
+      locations."/" = {
+          proxyPass = "http://127.0.0.1:${toString config.services.vaultwarden.config.ROCKET_PORT}";
+        };
     };
   };
 }

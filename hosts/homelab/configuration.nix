@@ -7,11 +7,12 @@
       ../../services/tailscale.nix
       ../../services/ssh.nix
       ../../services/prometheus.nix
-      ../../services/nginx.nix
+      ../../services/caddy.nix
       # client facing
       ../../services/grafana.nix
       ../../services/minecraft.nix
       ../../services/jellyfin.nix
+      ../../services/vaultwarden.nix
     ];
 
   time.timeZone = "Asia/Hong_Kong";
@@ -27,6 +28,9 @@
     wget
     git
     cowsay
+    nil
+    nixfmt-rfc-style
+    nss_latest
   ];
 
   networking = {
@@ -37,7 +41,7 @@
       enable = true;
       trustedInterfaces = [ "tailscale0" ];
       allowedUDPPorts = [ config.services.tailscale.port ];
-      allowedTCPPorts = [ ];
+      allowedTCPPorts = [ 80 443 ];
     };
 
     wireguard.interfaces.wg0 = {
@@ -50,7 +54,7 @@
     isNormalUser = true;
     description = "homelab";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [];
+    packages = with pkgs; [ ];
   };
 
   nixpkgs.config.allowUnfree = true;

@@ -8,6 +8,7 @@ in
 {
   # define which systems/users are able to decrypt which files
   "tailscale.age".publicKeys = users ++ systems;
+  "vaultwarden.age".publicKeys = users ++ systems;
 }
 
 # nix run github:ryantm/agenix -- <COMMAND>

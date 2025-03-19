@@ -1,6 +1,6 @@
-{ config, pkgs, ... }: 
+{ config, pkgs, ... }:
 let
-  tailscaleHostname = "homelab"; 
+  tailscaleHostname = "homelab";
 in
 {
   services.grafana = {
