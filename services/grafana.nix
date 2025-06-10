@@ -11,7 +11,6 @@ in
         http_addr = "127.0.0.1";
         http_port = 3000;
 
-        # Use the Tailscale hostname for domain and root_url
         domain = tailscaleHostname;
         root_url = "/grafana/";
       };
@@ -20,10 +19,12 @@ in
       enable = true;
 
       # Provision dashboards
-      dashboards.settings.providers = [{
-        name = "my dashboards";
-        options.path = "/etc/grafana-dashboards";
-      }];
+      dashboards.settings.providers = [
+        {
+          name = "my dashboards";
+          options.path = "/etc/grafana-dashboards";
+        }
+      ];
 
       # Provision datasources
       datasources.settings.datasources = [
@@ -37,5 +38,6 @@ in
   };
 
   # Deploy the Node Exporter Full dashboard JSON
-  environment.etc."grafana-dashboards/node-exporter-full.json".text = builtins.readFile ../resources/node-exporter-full.json;
+  environment.etc."grafana-dashboards/node-exporter-full.json".text =
+    builtins.readFile ../resources/node-exporter-full.json;
 }

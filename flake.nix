@@ -10,18 +10,38 @@
     agenix.url = "github:ryantm/agenix";
     # Minecraft server >:)
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
+    # Microvm
+    microvm.url = "github:astro/microvm.nix";
   };
 
-  outputs = inputs@{ self, nixpkgs, hardware, agenix, nix-minecraft }: {
-    nixosConfigurations = {
-      homelab = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-        system = "x86_64-linux";
-        modules = [
-          ./hosts/homelab
-          agenix.nixosModules.default
-        ];
+  outputs =
+    inputs@{
+      self,
+      nixpkgs,
+      hardware,
+      agenix,
+      nix-minecraft,
+      microvm,
+    }:
+    {
+      nixosConfigurations = {
+        homelab = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/homelab
+            agenix.nixosModules.default
+          ];
+        };
+        magi = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+          system = "x86_64-linux";
+          modules = [
+            agenix.nixosModules.default
+            microvm.nixosModules.host
+            ./hosts/magi
+          ];
+        };
       };
     };
-  };
 }

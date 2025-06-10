@@ -1,4 +1,9 @@
-{ inputs, pkgs, lib, ... }:
+{
+  inputs,
+  pkgs,
+  lib,
+  ...
+}:
 {
   imports = [ inputs.nix-minecraft.nixosModules.minecraft-servers ];
   nixpkgs.overlays = [ inputs.nix-minecraft.overlay ];
@@ -14,7 +19,7 @@
 
         # Server properties
         serverProperties = {
-          "difficulty" = "normal"; # Options: peaceful, easy, normal, hard
+          "difficulty" = "hard"; # Options: peaceful, easy, normal, hard
           "gamemode" = "survival"; # Options: survival, creative, adventure, spectator
           "max-players" = 3; # Maximum number of players
           "motd" = "Happy 5th Anniversary Jessie!"; # Message of the Day
