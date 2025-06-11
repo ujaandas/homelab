@@ -25,21 +25,13 @@
     }:
     {
       nixosConfigurations = {
-        homelab = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs; };
-          system = "x86_64-linux";
-          modules = [
-            ./hosts/homelab
-            agenix.nixosModules.default
-          ];
-        };
         magi = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs; };
+          specialArgs = { inherit self inputs; };
           system = "x86_64-linux";
           modules = [
             agenix.nixosModules.default
             microvm.nixosModules.host
-            ./hosts/magi
+            ./hosts/magi-1
           ];
         };
       };
