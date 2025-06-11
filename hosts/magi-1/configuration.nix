@@ -38,7 +38,7 @@
 
   networking = {
     hostName = "magi";
-    networkmanager.enable = true;
+    useNetworkd = true;
 
     firewall = {
       enable = true;
@@ -49,50 +49,20 @@
         443
       ];
     };
-
-   # wireguard.interfaces.wg0 = {
-   #   generatePrivateKeyFile = true;
-   #   privateKeyFile = "~/wg/wg0";
-   # };
   };
 
   systemd.network = {
-    enable = false;
+    enable = true; # already enabled by networking.useNetworkd
     wait-online.enable = false;
 
     networks = {
       "10-lan" = {
-        matchConfig.Name = [
-          "eno1"
-          "vm-*"
-        ];
-        networkConfig = {
-          Bridge = "br0";
-        };
-      };
-
-      "10-lan-bridge" = {
-        matchConfig.Name = "br0";
-        networkConfig = {
-          Address = [
-            "192.168.1.2/24"
-            "2001:db8::a/64"
-          ];
-          Gateway = "192.168.1.1";
-          DNS = [ "192.168.1.1" ];
-          IPv6AcceptRA = true;
-        };
-        linkConfig.RequiredForOnline = "routable";
+        matchConfig.Name = "eno1";
+        networkConfig.DHCP = "ipv4";
       };
     };
 
     netdevs = {
-      "br0" = {
-        netdevConfig = {
-          Name = "br0";
-          Kind = "bridge";
-        };
-      };
     };
   };
 
