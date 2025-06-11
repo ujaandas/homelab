@@ -29,34 +29,34 @@
             {
               networking = {
                 hostName = "melchior";
+                useNetworkd = true;
+                firewall.allowedTCPPorts = [ 22 ];
+              };
 
-                firewall.allowedTCPPorts = [
-                  22
-                ];
+              systemd.network = {
+                enable = true;
+                networks."20-lan" = {
+                  matchConfig.Type = "ether";
+                  networkConfig = {
+                    Address = [
+                      "10.0.0.10/24"
+                      "fd12:3456:789a::10/64"
+                    ];
+                    Gateway = "10.0.0.1";
+                    DNS = [
+                      "10.0.0.1"
+                      "8.8.8.8"
+                    ];
+                    IPv6AcceptRA = false;
+                    DHCP = "no";
+                  };
+                };
               };
 
               users.users.default = {
                 initialPassword = "password";
                 isNormalUser = true;
                 extraGroups = [ "wheel" ];
-              };
-
-              systemd.network = {
-                enable = true;
-
-                networks."20-lan" = {
-                  matchConfig.Type = "ether";
-                  networkConfig = {
-                    Address = [
-                      "192.168.1.3/24"
-                      "2001:db8::b/64"
-                    ];
-                    Gateway = "192.168.1.1";
-                    DNS = [ "192.168.1.1" ];
-                    IPv6AcceptRA = true;
-                    DHCP = "no";
-                  };
-                };
               };
 
               services.openssh.enable = true;
@@ -70,14 +70,13 @@
                 interfaces = [
                   {
                     type = "tap";
-                    id = "vm-test1";
+                    id = "vm-melchior";
                     mac = "02:00:00:00:00:01";
                   }
                 ];
 
                 volumes = [
                   {
-                    # Preserve root of vm
                     mountPoint = "/";
                     image = "root.img";
                     size = 512;

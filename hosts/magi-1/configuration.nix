@@ -45,6 +45,7 @@
       trustedInterfaces = [ "tailscale0" ];
       allowedUDPPorts = [ config.services.tailscale.port ];
       allowedTCPPorts = [
+        22
         80
         443
       ];
@@ -56,13 +57,40 @@
     wait-online.enable = false;
 
     networks = {
-      "10-lan" = {
+      "10-eno1" = {
         matchConfig.Name = "eno1";
-        networkConfig.DHCP = "ipv4";
+        networkConfig = {
+          DHCP = "ipv4";
+        };
+      };
+
+      "10-microvm" = {
+        matchConfig.Name = "microvm";
+        networkConfig = {
+          Address = [
+            "10.0.0.1/24"
+            "fd12:3456:789a::1/64"
+          ];
+          DHCPServer = true;
+          IPv6AcceptRA = true;
+        };
+      };
+
+      "11-microvm" = {
+        matchConfig.Name = "vm-*";
+        networkConfig = {
+          Bridge = "microvm";
+        };
       };
     };
 
     netdevs = {
+      "microvms" = {
+        netdevConfig = {
+          Name = "microvm";
+          Kind = "bridge";
+        };
+      };
     };
   };
 
