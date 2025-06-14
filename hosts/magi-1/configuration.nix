@@ -76,7 +76,7 @@
         };
       };
 
-      "11-microvm" = {
+      "20-microvm" = {
         matchConfig.Name = "vm-*";
         networkConfig = {
           Bridge = "microvm";

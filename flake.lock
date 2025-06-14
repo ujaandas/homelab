@@ -132,6 +132,26 @@
         "type": "github"
       }
     },
+    "melchior": {
+      "inputs": {
+        "microvm": [
+          "microvm"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1,
+        "narHash": "sha256-zdkZ54QVvvlozfdqs0mOChkSp9pJBUTcBQkQn0Kgxx4=",
+        "path": "./vms/melchior",
+        "type": "path"
+      },
+      "original": {
+        "path": "./vms/melchior",
+        "type": "path"
+      }
+    },
     "microvm": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -240,6 +260,7 @@
       "inputs": {
         "agenix": "agenix",
         "hardware": "hardware",
+        "melchior": "melchior",
         "microvm": "microvm",
         "nix-minecraft": "nix-minecraft",
         "nixpkgs": "nixpkgs_4"

@@ -12,6 +12,12 @@
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
     # Microvm
     microvm.url = "github:astro/microvm.nix";
+
+    melchior = {
+      url = "path:./vms/melchior";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.microvm.follows = "microvm";
+    };
   };
 
   outputs =
@@ -22,9 +28,11 @@
       agenix,
       nix-minecraft,
       microvm,
+      melchior,
     }:
     {
       nixosConfigurations = {
+
         magi = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit self inputs; };
           system = "x86_64-linux";
@@ -32,6 +40,19 @@
             agenix.nixosModules.default
             microvm.nixosModules.host
             ./hosts/magi-1
+            {
+              microvm = {
+                autostart = [
+                  "melchior"
+                ];
+                vms = {
+                  melchior = {
+                    flake = melchior;
+                    updateFlake = "file://${toString ./vms/melchior}";
+                  };
+                };
+              };
+            }
           ];
         };
       };
