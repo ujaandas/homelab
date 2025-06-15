@@ -11,11 +11,12 @@
     ../../services/ssh.nix
     ../../services/prometheus.nix
     ../../services/caddy.nix
+    ../../services/dns.nix
     # client facing
-    ../../services/grafana.nix
-    ../../services/minecraft.nix
-    ../../services/jellyfin.nix
-    ../../services/vaultwarden.nix
+    # ../../services/grafana.nix
+    # ../../services/minecraft.nix
+    # ../../services/jellyfin.nix
+    # ../../services/vaultwarden.nix
   ];
 
   time.timeZone = "Asia/Hong_Kong";
@@ -45,6 +46,7 @@
       trustedInterfaces = [ "tailscale0" ];
       allowedUDPPorts = [ config.services.tailscale.port ];
       allowedTCPPorts = [
+        53
         22
         80
         443
